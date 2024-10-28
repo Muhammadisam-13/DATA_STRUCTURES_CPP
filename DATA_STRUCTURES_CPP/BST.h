@@ -11,12 +11,12 @@ struct TreeNode {
 };
 
 template<typename T>
-class BinaryTree {
+class BST {
 private:
 	TreeNode<T>* root;
 	int numNodes;
 public:
-	BinaryTree() : root(nullptr), numNodes(0) {}
+	BST() : root(nullptr), numNodes(0) {}
 	void insertNode(T data) {
 		TreeNode<T>* newNode = new TreeNode<T>;
 		newNode->left = nullptr;
@@ -43,6 +43,41 @@ public:
 		}
 		numNodes++;
 	}
+
+	void deleteNode(T data) {
+		if (!root) cout << "Tree is empty.\n";
+
+		TreeNode<T>* curr = root;
+		TreeNode<T>* prev = nullptr;
+
+
+		while (curr) {
+			if (curr->data > data) {
+				if (curr->left) {
+					prev = curr;
+					curr = curr->left;
+				}
+			}
+			else if (curr->data < data) {
+				if (curr->right) {
+					prev = curr;
+					curr = curr->right;
+				}
+			}
+			else break;
+		}
+
+		if (curr) {
+			if (!curr->left && !curr->right) {
+				if (prev->right == curr) prev->right = nullptr;
+				else if (prev->left == curr) prev->left = nullptr;
+				delete curr;
+			}
+			
+		}
+
+
+	}
 	bool search(T data) {
 		TreeNode<T>* curr = root;
 		while (curr) {
@@ -58,7 +93,7 @@ public:
 		}
 		return false; // value is not found
 	}
-	~BinaryTree() {
+	~BST() {
 
 	}
 };
