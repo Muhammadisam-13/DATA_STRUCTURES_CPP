@@ -81,12 +81,22 @@ private:
 		return node;
 	}
 
+	bool search(AVLNode<T>* root, T data) {
+		if (root == nullptr) return false;
+		if (data == root->data) return true;
+		if (data < root->data) return search(root->left, data);
+		return search(root->right, data);
+	}
+
 public:
 	AVLTree() : 
 		root(nullptr) {}
-
-	// inserting a key into the AVL Tree
-	void insert(T key) {
-		root = insert(root, key);
+	// inserting a value into the AVL Tree
+	void insert(T val) {
+		root = insert(root, val);
+	}
+	// searching a value from the AVL Tree
+	bool search(T val) {
+		return search(root, val);
 	}
 };
