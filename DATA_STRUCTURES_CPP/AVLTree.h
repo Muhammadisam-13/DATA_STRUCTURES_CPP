@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+
 using namespace std;
 
 template<class T>
@@ -29,28 +30,27 @@ private:
 		return Height(node->left) - Height(node->right);
 	}
 	AVLNode<T>* rightRotate(AVLNode<T>* node) {
-		AVLNode<T> newRoot = node->left;
-		AVLNode<T> temp = newRoot->right;
+		AVLNode<T>* newRoot = node->left;
+		AVLNode<T>* temp = newRoot->right;
 
 		newRoot->right = node;
 		node->left = temp;
 
-		newRoot->height = max(Height(newRoot->left) - Height(newRoot->right)) + 1;
-		node->height = max(Height(node->left) - Height(node->right)) + 1;
+		newRoot->height = max(Height(newRoot->left), Height(newRoot->right)) + 1;
+		node->height = max(Height(node->left), Height(node->right)) + 1;
 		return newRoot;
 	}
 	AVLNode<T>* leftRotate(AVLNode<T>* node) {
-		AVLNode<T> newRoot = node->right;
-		AVLNode<T> temp = newRoot->left;
+		AVLNode<T>* newRoot = node->right;
+		AVLNode<T>* temp = newRoot->left;
 
 		newRoot->left = node;
 		node->right = temp;
-
-		newRoot->height = max(Height(newRoot->left) - Height(newRoot->right)) + 1;
-		node->height = max(Height(node->left) - Height(node->right)) + 1;
+		newRoot->height = max(Height(newRoot->left), Height(newRoot->right)) + 1;
+		node->height = max(Height(node->left), Height(node->right)) + 1;
 		return newRoot;
 	}
-	AVLNode<T>* insert(AVLNode* node, int data) {
+	AVLNode<T>* insert(AVLNode<T>* node, int data) {
 		if (node == nullptr) // if the node is nullptr
 			return new AVLNode<T>(data);
 		
@@ -99,27 +99,30 @@ public:
 	bool search(T val) {
 		return search(root, val);
 	}
-	void inorderTraversal(BSTNode* treeNode) {
-		if (treeNode) {
-			InorderTraversal(treeNode->left);
-			cout << treeNode->data << " ";
-			InorderTraversal(treeNode->right);
+	void inorderTraversal(AVLNode<T>* root) {
+		if (root) {
+			inorderTraversal(root->left);
+			cout << root->data << " ";
+			inorderTraversal(root->right);
 
 		}
 	}
-	void preorderTraversal(BSTNode* treeNode) {
-		if (treeNode) {
-			cout << treeNode->data << " ";
-			PreorderTraversal(treeNode->left);
-			PreorderTraversal(treeNode->right);
+	void preorderTraversal(AVLNode<T>* root) {
+		if (root) {
+			cout << root->data << " ";
+			preorderTraversal(root->left);
+			preorderTraversal(root->right);
 
 		}
 	}
-	void postorderTraversal(BSTNode* treeNode) {
-		if (treeNode) {
-			PostorderTraversal(treeNode->left);
-			PostorderTraversal(treeNode->right);
-			cout << treeNode->data << " ";
+	void postorderTraversal(AVLNode<T>* root) {
+		if (root) {
+			postorderTraversal(root->left);
+			postorderTraversal(root->right);
+			cout << root->data << " ";
 		}
+	}
+	AVLNode<T>*& getRoot() {
+		return root;
 	}
 };
