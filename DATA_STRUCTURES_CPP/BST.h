@@ -2,23 +2,24 @@
 #include<iostream>
 using namespace std;
 
-template<typename T>
-struct TreeNode {
-	T data;
-	TreeNode* left;
-	TreeNode* right;
-	TreeNode() : left(nullptr), right(nullptr), data(T()) {}
+struct BSTNode {
+	int data;
+	BSTNode* left;
+	BSTNode* right;
+	BSTNode() : left(nullptr), right(nullptr) {}
 };
 
-template<typename T>
-class BST {
+class BST { 
 private:
-	TreeNode<T>* root;
+	BSTNode* root;
 	int numNodes;
 public:
 	BST() : root(nullptr), numNodes(0) {}
-	void insertNode(T data) {
-		TreeNode<T>* newNode = new TreeNode<T>;
+	BSTNode*& getRoot() {
+		return root;
+	}
+	void insertNode(int data) {
+		BSTNode* newNode = new BSTNode;
 		newNode->left = nullptr;
 		newNode->right = nullptr;
 		newNode->data = data;
@@ -28,7 +29,7 @@ public:
 		}
 
 		else {
-			TreeNode<T>* curr = root;
+			BSTNode* curr = root;
 			while (curr) {
 				if (curr->data > data) { // left subtree
 					if (curr->left) { curr = curr->left; }
@@ -44,42 +45,95 @@ public:
 		numNodes++;
 	}
 
-	void deleteNode(T data) {
-		if (!root) cout << "Tree is empty.\n";
+	void InorderTraversal(BSTNode* treeNode) {
+		if (treeNode) {
+			InorderTraversal(treeNode->left);
+			cout << treeNode->data << " ";
+			InorderTraversal(treeNode->right);
 
-		TreeNode<T>* curr = root;
-		TreeNode<T>* prev = nullptr;
-
-
-		while (curr) {
-			if (curr->data > data) {
-				if (curr->left) {
-					prev = curr;
-					curr = curr->left;
-				}
-			}
-			else if (curr->data < data) {
-				if (curr->right) {
-					prev = curr;
-					curr = curr->right;
-				}
-			}
-			else break;
 		}
+	}
 
-		if (curr) {
-			if (!curr->left && !curr->right) {
-				if (prev->right == curr) prev->right = nullptr;
-				else if (prev->left == curr) prev->left = nullptr;
-				delete curr;
+	void PreorderTraversal(BSTNode* treeNode) {
+		if (treeNode) {
+			cout << treeNode->data << " ";
+			PreorderTraversal(treeNode->left);
+			PreorderTraversal(treeNode->right);
+
+		}
+	}
+	void PostorderTraversal(BSTNode* treeNode) {
+		if (treeNode) {
+			PostorderTraversal(treeNode->left);
+			PostorderTraversal(treeNode->right);
+			cout << treeNode->data << " ";
+		}
+	}
+
+	BSTNode* getInorderSuccessor(BSTNode* node) {
+		if (!node || !node->left) return node;
+		return getInorderSuccessor(node->left);
+	}
+
+	BSTNode* deleteNodeHelper(BSTNode*& root, int data) {
+		if (!root) return root;
+		
+		if (data < root->data) root->left = deleteNodeHelper(root->left, data); // if value to find is 
+		else if (data > root->data) root->right = deleteNodeHelper(root->right, data);
+		
+		else {
+			if (!root->right) { // leaf node case and left subtree existing case
+				BSTNode* temp = root;
+				temp = temp->left;
+				delete root;
+				return temp;
+			}
+			else if (root->right && !root->left) { // only right subtree existing case
+				BSTNode* temp = root;
+				temp = temp->right;
+				delete root;
+				return temp;
 			}
 			
+			else { // both subtrees existing case
+				BSTNode* inorderSuccessor = getInorderSuccessor(root->right);
+				root->data = inorderSuccessor->data;
+				BSTNode* temp = inorderSuccessor;
+				root->right = deleteNodeHelper(root->right, inorderSuccessor->data);
+			}
 		}
-
-
 	}
-	bool search(T data) {
-		TreeNode<T>* curr = root;
+
+	BSTNode* deleteNode(int data) {
+		if (!root) return root;
+
+		if (data < root->data) root->left = deleteNode(data); // if value to find is 
+		else if (data > root->data) root->right = deleteNode(data);
+
+		else {
+			if (!root->right) { // leaf node case and left subtree existing case
+				BSTNode* temp = root;
+				temp = temp->left;
+				delete root;
+				return temp;
+			}
+			else if (root->right && !root->left) { // only right subtree existing case
+				BSTNode* temp = root;
+				temp = temp->right;
+				delete root;
+				return temp;
+			}
+
+			else { // both subtrees existing case
+				BSTNode* inorderSuccessor = getInorderSuccessor(root->right);
+				root->data = inorderSuccessor->data;
+				BSTNode* temp = inorderSuccessor;
+				root->right = deleteNode(data);
+			}
+		}
+	}
+	bool search(int data) {
+		BSTNode* curr = root;
 		while (curr) {
 			if (curr->data == data) {
 				return true; // value is found
