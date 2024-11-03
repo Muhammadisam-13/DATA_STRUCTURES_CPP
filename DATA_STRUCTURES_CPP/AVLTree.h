@@ -99,4 +99,27 @@ public:
 	bool search(T val) {
 		return search(root, val);
 	}
+	void inorderTraversal(BSTNode* treeNode) {
+		if (treeNode) {
+			InorderTraversal(treeNode->left);
+			cout << treeNode->data << " ";
+			InorderTraversal(treeNode->right);
+
+		}
+	}
+	void preorderTraversal(BSTNode* treeNode) {
+		if (treeNode) {
+			cout << treeNode->data << " ";
+			PreorderTraversal(treeNode->left);
+			PreorderTraversal(treeNode->right);
+
+		}
+	}
+	void postorderTraversal(BSTNode* treeNode) {
+		if (treeNode) {
+			PostorderTraversal(treeNode->left);
+			PostorderTraversal(treeNode->right);
+			cout << treeNode->data << " ";
+		}
+	}
 };
