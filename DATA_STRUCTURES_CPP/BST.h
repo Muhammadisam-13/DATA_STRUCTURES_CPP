@@ -6,8 +6,8 @@ using namespace std;
 template<class T>
 struct BSTNode {
 	T data;
-	BSTNode* left;
-	BSTNode* right;
+	BSTNode<T>* left;
+	BSTNode<T>* right;
 	BSTNode(T data) : data(data), left(nullptr), right(nullptr) {}
 };
 
@@ -16,7 +16,7 @@ class BST {
 private:
 	BSTNode<T>* inorderSuccessor(BSTNode<T>* node) {
 		if (!node || !node->left) return node;
-		inorderSuccessor(node->left);
+		return inorderSuccessor(node->left);
 	}
 	BSTNode<T>* deleteNode(BSTNode<T>* currNode, T data) {
 		if (!currNode) return currNode;
@@ -45,6 +45,7 @@ private:
 				currNode->right = deleteNode(currNode->right, inorder->data);
 			}
 		}
+		return currNode;
 	}
 	void inorderTraversal(BSTNode<T>* node) {
 		if (!node) return;
