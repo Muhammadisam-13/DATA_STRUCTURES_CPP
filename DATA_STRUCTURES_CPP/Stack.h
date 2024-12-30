@@ -2,8 +2,7 @@
 #include<iostream>
 using namespace std;
 
-template<typename T>
-class Stack {
+template<typename T> class Stack {
 private:
 	T* list;
 	int maxSize;

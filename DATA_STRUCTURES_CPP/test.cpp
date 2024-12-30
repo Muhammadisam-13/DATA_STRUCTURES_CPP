@@ -1,27 +1,28 @@
 #include <iostream>
 #include "BST.h"
-#include "AVLTree.h"
+#include "BTree.h"
 
 int main() {
-	BST tree;
-	tree.insertNode(10);
-	tree.insertNode(20);
-	tree.insertNode(30);
-	tree.insertNode(40);
-	tree.insertNode(4);
-	BSTNode* root = tree.getRoot();
-	tree.PreorderTraversal(root);
-	cout << endl;
+	//BTree<int, 4> btree;
+	//btree.insert(10);
+	//btree.insert(20);
+	//btree.insert(30);
+	//btree.traverse(); cout << endl;
+	//btree.insert(40);
+	//// btree.insert(50);
+	//btree.traverse(); cout << endl;
+	//// btree.traverse(); cout << endl;
+	//btree.insert(5);
+	//btree.insert(15);
+	//btree.insert(18);
+	//btree.traverse(); cout << endl;
 
-	AVLTree<int> avl;
-	avl.insert(10);
-	avl.insert(20);
-	avl.insert(30);
-	avl.insert(40);
-	avl.insert(4);
-	AVLNode<int>* avlroot = avl.getRoot();
-	avl.preorderTraversal(avlroot);
-
-
+	BST<int> bst;
+	bst.insert(65);
+	bst.insert(45);
+	bst.insert(78);
+	bst.insert(42);
+	bst.insert(47);
+	bst.insert(81);
+	bst.levelOrder();
 }
-
